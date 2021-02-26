@@ -1,16 +1,57 @@
 // Set up the constants from the DOM
 const quizStartContainerEl = document.getElementById('quiz-start-container');
-const quizContainerEl = document.getElementById('quiz');
+const quizContentEl = document.getElementById('quiz-content');
 const resultsContainerEl = document.getElementById('results');
 const quizStartButtonEl = document.getElementById('quiz-start');
 const submitButtonEl = document.getElementById('submit');
 const timeDisplay = document.querySelector('#timer')
+
+var totalTime = 180;
 
 // Build the quiz
 var buildQuiz = function () {
 
 	// Remove the intro DOM elements
 	quizStartContainerEl.remove();
+
+	// Add the submit button at the end of the div
+	var submitButton = document.createElement("button");
+  	var buttonText = document.createTextNode("Submit Quiz");
+  	submitButton.appendChild(buttonText);
+  	document.body.appendChild(submitButton);
+
+	// Variable to store the HTML output
+	const output = [];
+
+	// For each question
+	myQuestions.forEach((currentQuestion, questionNumber) => {
+
+		// Store the answers of each question
+		const answers = [];
+
+		// An for each available answer..
+		for(letter in currentQuestion.answers) {
+
+			// Add an HTML radio button
+			answers.push(
+				`<label>
+					<input type="radio" name="question${questionNumber}" value="${letter}">
+            		${letter} :
+            		${currentQuestion.answers[letter]}
+          			</label>`
+			);
+		}
+
+		// add this question and its answers to the output
+      	output.push(
+        	`<div class="question"> ${currentQuestion.question} </div>
+        	<div class="answers"> ${answers.join('')} </div>`
+      	);
+    }
+  );
+
+  // finally combine our output list into one string of HTML and put it on the page
+  quizContentEl.innerHTML = output.join('');
 };
 
 // Check the results
@@ -34,6 +75,7 @@ var quizTimer = function(duration, display) {
 
         if (--timer < 0) {
             timer = duration;
+            totalTime = 0;
         }
     }, 1000);
 };
@@ -42,7 +84,7 @@ var quizTimer = function(duration, display) {
 quizStartButtonEl.addEventListener('click', function (){
 	// When the user clicks the quiz, we build the quiz and start the timer.
 	buildQuiz();
-	quizTimer(180, timeDisplay);
+	quizTimer(totalTime, timeDisplay);
 });
 
 // on submit, show results
