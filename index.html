@@ -3,7 +3,7 @@
 
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>Random Quiz!</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -17,38 +17,40 @@
     <!-- Place favicon.ico in the root directory -->
 
     <!-- LINK THE RIGHT STYLE SHEETS -->
-    <link rel="stylesheet" href="">
-    <link rel="stylesheet" href="">
-    <!-- DID YOU REMEMBER TO LINK THE RIGHT SHEETS? -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="./assets/css/style.css">
+
 
     <meta name="theme-color" content="#fafafa">
   </head>
 
   <body>
     <header>
-      <!-- Header Section Here  -->
+    	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<div class="time">
+				<p id="timer"></p>
+			</div>
+		</nav>
     </header>
 
     <!-- Add your site or application content here -->
     <main>
-    	<section>
-    		<div class="quiz-container" id="quiz"></div>
-    		<button class="quiz-button" id="submit"></button>
-    		<div class="quiz-results" id="results"></div>
+    	<section id="quiz-start-container">
+    		<div class="container">
+    			<h1>Welcome to my Random Quiz!</h1>
+    			<p>This quiz is timed and includes random questions from history, pop-culture, music, sports, and other facts that I like. I hope you enjoy and good luck!</p>
+    			<button type="button" class="btn btn-primary" id="quiz-start">Start the Quiz!</button>
+    		</div>
     	</section>
+    	<!-- <section>
+    		<div class="quiz-content" id="quiz-content"></div>
+    		<button class="quiz-button" id="submit">Submit</button>
+    		<div class="quiz-results" id="results"></div>
+    	</section> -->
     </main>
 
     <!-- DO NOT IGNORE THIS SECTION -->
     <script src="./assets/js/script.js"></script>
- 
-    <!-- DID YOU REMEMBER THIS SECTION? -->
-
-    <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
-    <script>
-        window.ga = function () { ga.q.push(arguments) }; ga.q = []; ga.l = +new Date;
-        ga('create', 'UA-XXXXX-Y', 'auto'); ga('set', 'anonymizeIp', true); ga('set', 'transport', 'beacon'); ga('send', 'pageview')
-    </script>
-    <script src="https://www.google-analytics.com/analytics.js" async></script>
   
     <footer>
       <!-- Footer Goes Here -->

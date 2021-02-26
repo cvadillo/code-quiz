@@ -1,11 +1,16 @@
 // Set up the constants from the DOM
+const quizStartContainerEl = document.getElementById('quiz-start-container');
 const quizContainerEl = document.getElementById('quiz');
 const resultsContainerEl = document.getElementById('results');
+const quizStartButtonEl = document.getElementById('quiz-start');
 const submitButtonEl = document.getElementById('submit');
+const timeDisplay = document.querySelector('#timer')
 
 // Build the quiz
 var buildQuiz = function () {
 
+	// Remove the intro DOM elements
+	quizStartContainerEl.remove();
 };
 
 // Check the results
@@ -14,15 +19,34 @@ var showResults = function () {
 };
 
 // have a function running the timer
-var quizTimer = function () {
+var quizTimer = function(duration, display) {
 
+	// assign the variables
+    var timer = duration, minutes, seconds;
+    setInterval(function () {
+        minutes = parseInt(timer / 60, 10);
+        seconds = parseInt(timer % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        timeDisplay.textContent = "You have " + minutes + ":" + seconds + " left";
+
+        if (--timer < 0) {
+            timer = duration;
+        }
+    }, 1000);
 };
 
-buildQuiz();
-quizTimer();
+
+quizStartButtonEl.addEventListener('click', function (){
+	// When the user clicks the quiz, we build the quiz and start the timer.
+	buildQuiz();
+	quizTimer(180, timeDisplay);
+});
 
 // on submit, show results
-submitButtonEl.addEventListener('click', showResults, quizTimer);
+// submitButtonEl.addEventListener('click', showResults);
 
 
 // Store the questions
