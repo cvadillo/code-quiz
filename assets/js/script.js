@@ -3,22 +3,21 @@ const quizStartContainerEl = document.getElementById('quiz-start-container');
 const quizContentEl = document.getElementById('quiz-content');
 const resultsContainerEl = document.getElementById('results');
 const quizStartButtonEl = document.getElementById('quiz-start');
-const submitButtonEl = document.getElementById('submit');
 const timeDisplay = document.querySelector('#timer')
 
-var totalTime = 180;
+const totalTime = 180;
 
 // Build the quiz
-var buildQuiz = function () {
+const buildQuiz = function () {
 
 	// Remove the intro DOM elements
 	quizStartContainerEl.remove();
 
 	// Add the submit button at the end of the div
-	var submitButton = document.createElement("button");
-  	var buttonText = document.createTextNode("Submit Quiz");
+	const submitButton = document.createElement("button");
+	submitButton.setAttribute("id", "submit")
+  	const buttonText = document.createTextNode("Submit Quiz");
   	submitButton.appendChild(buttonText);
-  	document.body.appendChild(submitButton);
 
 	// Variable to store the HTML output
 	const output = [];
@@ -52,18 +51,50 @@ var buildQuiz = function () {
 
   // finally combine our output list into one string of HTML and put it on the page
   quizContentEl.innerHTML = output.join('');
+  quizContentEl.appendChild(submitButton);
 };
 
 // Check the results
-var showResults = function () {
+const showResults = function () {
 
+	// gather answer containers from our quiz
+	const answerContainers = quizContentEl.querySelectorAll('.answers');
+
+	// keep track of users's answers
+	let numCorrect = 0;
+
+	// for each...
+	myQuestions.forEach((currentQuestion, questionNumber) => {
+
+		// find the selected answer
+		let answerContainer = answerContainers[questionNumber];
+		let selector = `input[name=question${questionNumber}]:checked`;
+		let userAnswer = (answerContainer.querySelector(selector) || {}).value;
+
+		// if correct
+		if (userAnswer === currentQuestion.correctAnswer) {
+			// add to the number of correct answers
+			numCorrect++;
+			// color the answers green
+			answerContainers[questionNumber].style.color = 'lightgreen';
+		} else {
+			answerContainers[questionNumber].style.color = 'red';
+		}
+
+	});
+
+	// Remove the quiz content
+	quizContentEl.remove();
+
+	// Display the results
+	resultsContainerEl.innerHTML = `${numCorrect} out of ${myQuestions.length}`;
 };
 
 // have a function running the timer
-var quizTimer = function(duration, display) {
+const quizTimer = function(duration, display) {
 
 	// assign the variables
-    var timer = duration, minutes, seconds;
+    let timer = duration, minutes, seconds;
     setInterval(function () {
         minutes = parseInt(timer / 60, 10);
         seconds = parseInt(timer % 60, 10);
@@ -88,7 +119,11 @@ quizStartButtonEl.addEventListener('click', function (){
 });
 
 // on submit, show results
-// submitButtonEl.addEventListener('click', showResults);
+document.addEventListener('click', function(e) {
+	if (e.target.id === 'submit') {
+		showResults();
+	}
+});
 
 
 // Store the questions
